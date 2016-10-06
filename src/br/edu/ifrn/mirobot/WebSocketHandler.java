@@ -1,4 +1,4 @@
-package br.ifrn.edu.mirobot;
+package br.edu.ifrn.mirobot;
 
 import java.net.URI;
 import java.util.concurrent.Future;

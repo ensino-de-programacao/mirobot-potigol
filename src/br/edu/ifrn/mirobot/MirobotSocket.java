@@ -1,5 +1,5 @@
-package br.ifrn.edu.mirobot;
- 
+package br.edu.ifrn.mirobot;
+
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
