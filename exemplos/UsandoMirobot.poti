@@ -1,0 +1,5 @@
+use "br.ifrn.edu.mirobot"
+
+mirobot = Mirobot.usar("url")
+
+escreva "Funcionou!!!"
