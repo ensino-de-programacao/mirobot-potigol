@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -29,10 +31,13 @@ import org.glassfish.tyrus.server.Server;
 public class SocketHandler {
 
     private static CountDownLatch messageLatch;
-    private static final String SENT_MESSAGE = "Hello World";
+    private static final String SENT_MESSAGE = "{\"cmd\": \"right\", \"id\": \"Ir7l002c\", \"arg\": \"90\"}";
 
     public static void run() {
         try {
+            
+            List<String> entradas = new ArrayList();
+            
             messageLatch = new CountDownLatch(1);
 
             final ClientEndpointConfig cec = ClientEndpointConfig.Builder.create().build();
@@ -48,6 +53,9 @@ public class SocketHandler {
                             @Override
                             public void onMessage(String message) {
                                 System.out.println("Received message: " + message);
+                                entradas.add(message);
+                                
+                                
                                 messageLatch.countDown();
                             }
                         });
@@ -56,10 +64,14 @@ public class SocketHandler {
                         e.printStackTrace();
                     }
                 }
-            }, cec, new URI("ws://localhost:8889/teste"));
+            }, cec, new URI("ws://localhost:8899"));
             messageLatch.await(100, TimeUnit.SECONDS);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public String generateId() {
+        return "";
     }
 }
