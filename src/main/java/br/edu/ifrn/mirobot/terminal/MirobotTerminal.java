@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.edu.ifrn.mirobot;
+package br.edu.ifrn.mirobot.terminal;
 
+import br.edu.ifrn.mirobot.Mirobot;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,19 +20,23 @@ public class MirobotTerminal {
     
     private BufferedReader bufferRead;
     private Mirobot mirobot;
+    private final MirobotComandos comandos;
     
     public MirobotTerminal() {
         this.bufferRead = new BufferedReader(new InputStreamReader(System.in));
         this.mirobot = new Mirobot();
+        this.comandos = new MirobotComandos(this.mirobot);
     }       
             
     private void executar() {
         try {
-            mirobot.conectar("ws://localhost:8899");
+//            mirobot.conectar("ws://localhost:8899");
             while(true) {
-                String comando = this.bufferRead.readLine();
+                String linha = this.bufferRead.readLine();
+                String[] comandos = linha.split(" ");
+                String comando = comandos[0];
                 if (comando.equals("sair")) return;
-                this.mirobot.rodar(comando);
+                this.comandos.executar(comando, comandos);
             }
         } catch (IOException ex) {
             Logger.getLogger(MirobotTerminal.class.getName()).log(Level.SEVERE, null, ex);
