@@ -36,35 +36,35 @@ public class Mirobot {
     }
 
     public void ping() {
-        this.enviar("ping");
+        this.enviar("ping", "");
     }
 
     public void levantarCaneta() {
-        this.enviar("penup");
+        this.enviar("penup", "");
     }
 
     public void descerCaneta() {
-        this.enviar("pendown");
+        this.enviar("pendown", "");
     }
 
-    public void moverParaFrente(int distancia) {
-        this.enviar("forward");
+    public void moverParaFrente(String distancia) {
+        this.enviar("forward", distancia);
     }
 
-    public void moverParaTras(int distancia) {
-        this.enviar("back");
+    public void moverParaTras(String distancia) {
+        this.enviar("back", distancia);
     }
 
-    public void girarParaEsquerda() {
-        this.enviar("left");
+    public void esquerda(String graus) {
+        this.enviar("left", graus);
     }
 
-    public void girarParaDireita() {
-        this.enviar("rigth");
+    public void direita(String graus) {
+        this.enviar("rigth", graus);
     }
 
-    public void beep() {
-        this.enviar("beep");
+    public void beep(String segundos) {
+        this.enviar("beep", "");
     }
 
     public void estadoDeColisao() {
@@ -73,12 +73,12 @@ public class Mirobot {
     public void seguimentoDeColisao() {
     }
 
-    private void enviar(String comando) {
+    private void enviar(String comando, String arg) {
         this.socket.send("{\"cmd\": \"right\", \"id\": \"Ir7l002c\", \"arg\": \"90\"}");
     }
 
     public void rodar(String comando) {
-        beep();
+        beep("12");
     }
     
     public static void main(String[] args) {
@@ -87,7 +87,7 @@ public class Mirobot {
         
         Mirobot mirobot = new Mirobot();
         mirobot.conectar("ws://localhost:8899");
-        mirobot.beep();
+        mirobot.beep("12");
         
         // apenas para executar o teste
         try {
