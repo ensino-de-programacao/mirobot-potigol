@@ -5,20 +5,28 @@
  */
 package br.edu.ifrn.mirobot;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author mateus
  */
 public class Mirobot {
 
-    private SocketHandler socket;
+    // apenas utilizado para o teste em main
+    private static CountDownLatch latch;
+    
+    private MirobotWebSocketHandler socket;
 
     public Mirobot() {
         super();
-        socket = new SocketHandler();
+        this.socket = new MirobotWebSocketHandler();
     }
     
     public void conectar(String endereco) {
+        this.socket.connect(endereco);
     }
 
     public void conectarAuto() {
@@ -66,9 +74,26 @@ public class Mirobot {
     }
 
     private void enviar(String comando) {
+        this.socket.send("{\"cmd\": \"right\", \"id\": \"Ir7l002c\", \"arg\": \"90\"}");
     }
 
-    public static void rodar() {
-        SocketHandler.run();
+    public void rodar(String comando) {
+        beep();
+    }
+    
+    public static void main(String[] args) {
+        // apenas para executar o teste
+        Mirobot.latch = new CountDownLatch(1);
+        
+        Mirobot mirobot = new Mirobot();
+        mirobot.conectar("ws://localhost:8899");
+        mirobot.beep();
+        
+        // apenas para executar o teste
+        try {
+            Mirobot.latch.await();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Mirobot.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
