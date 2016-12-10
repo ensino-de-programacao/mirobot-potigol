@@ -64,7 +64,7 @@ public class Mirobot {
     }
 
     public void beep(String segundos) {
-        this.enviar("beep", "");
+        this.enviar("beep", segundos);
     }
 
     public void estadoDeColisao() {
@@ -74,11 +74,18 @@ public class Mirobot {
     }
 
     private void enviar(String comando, String arg) {
-        this.socket.send("{\"cmd\": \"right\", \"id\": \"Ir7l002c\", \"arg\": \"90\"}");
+        if (!arg.equals("")) {
+            this.socket.send("{\"cmd\": \"" + comando + "\", \"id\": \"" + 
+                    this.gerarId() + "\", \"arg\": \"" + arg + "\"}");
+        } else {
+            this.socket.send("{\"cmd\": \"" + comando + "\", \"id\": \"" + 
+                    this.gerarId() + "\"}");
+        }
+    //   this.socket.send("{\"cmd\": \"right\", \"id\": \"Ir7l002c\", \"arg\": \"90\"}");
     }
 
-    public void rodar(String comando) {
-        beep("12");
+    private String gerarId() {
+        return "Ir7l002c";
     }
     
     public static void main(String[] args) {
@@ -87,7 +94,6 @@ public class Mirobot {
         
         Mirobot mirobot = new Mirobot();
         mirobot.conectar("ws://localhost:8899");
-        mirobot.beep("12");
         
         // apenas para executar o teste
         try {

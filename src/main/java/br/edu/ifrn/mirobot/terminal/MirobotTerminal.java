@@ -30,10 +30,10 @@ public class MirobotTerminal {
             
     private void executar() {
         try {
-//            mirobot.conectar("ws://localhost:8899");
+            mirobot.conectar("ws://localhost:8899");
             while(true) {
                 String linha = this.bufferRead.readLine();
-                String[] comandos = linha.split(" ");
+                String[] comandos = linha.split("\\s+");
                 String comando = comandos[0];
                 if (comando.equals("sair")) return;
                 this.comandos.executar(comando, comandos);
@@ -45,7 +45,5 @@ public class MirobotTerminal {
 
     public static void main(String[] args) {
         new MirobotTerminal().executar();
-        
     }
-
 }
