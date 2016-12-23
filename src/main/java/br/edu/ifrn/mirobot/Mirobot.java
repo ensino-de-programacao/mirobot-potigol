@@ -6,8 +6,6 @@
 package br.edu.ifrn.mirobot;
 
 import java.util.concurrent.CountDownLatch;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -17,14 +15,16 @@ public class Mirobot {
 
     // apenas utilizado para o teste em main
     private static CountDownLatch latch;
-    
+
+    private static Mirobot instancia;
+
     private MirobotWebSocketHandler socket;
 
     public Mirobot() {
         super();
         this.socket = new MirobotWebSocketHandler();
     }
-    
+
     public void conectar(String endereco) {
         this.socket.connect(endereco);
     }
@@ -75,31 +75,41 @@ public class Mirobot {
 
     private void enviar(String comando, String arg) {
         if (!arg.equals("")) {
-            this.socket.send("{\"cmd\": \"" + comando + "\", \"id\": \"" + 
-                    this.gerarId() + "\", \"arg\": \"" + arg + "\"}");
+            this.socket.send("{\"cmd\": \"" + comando + "\", \"id\": \""
+                    + this.gerarId() + "\", \"arg\": \"" + arg + "\"}");
         } else {
-            this.socket.send("{\"cmd\": \"" + comando + "\", \"id\": \"" + 
-                    this.gerarId() + "\"}");
+            this.socket.send("{\"cmd\": \"" + comando + "\", \"id\": \""
+                    + this.gerarId() + "\"}");
         }
-    //   this.socket.send("{\"cmd\": \"right\", \"id\": \"Ir7l002c\", \"arg\": \"90\"}");
+        //   this.socket.send("{\"cmd\": \"right\", \"id\": \"Ir7l002c\", \"arg\": \"90\"}");
     }
 
     private String gerarId() {
         return "Ir7l002c";
     }
-    
-    public static void main(String[] args) {
-        // apenas para executar o teste
-        Mirobot.latch = new CountDownLatch(1);
-        
-        Mirobot mirobot = new Mirobot();
-        mirobot.conectar("ws://localhost:8899");
-        
-        // apenas para executar o teste
-        try {
-            Mirobot.latch.await();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Mirobot.class.getName()).log(Level.SEVERE, null, ex);
+
+    public static Mirobot pegarInstancia() {
+        if (Mirobot.instancia == null) {
+            Mirobot.instancia = new Mirobot();
+
+            return Mirobot.instancia;
         }
+
+        return Mirobot.instancia;
     }
+
+//    public static void main(String[] args) {
+//        // apenas para executar o teste
+//        Mirobot.latch = new CountDownLatch(1);
+//        
+//        Mirobot mirobot = new Mirobot();
+//        mirobot.conectar("ws://localhost:8899");
+//        
+//        // apenas para executar o teste
+//        try {
+//            Mirobot.latch.await();
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(Mirobot.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 }
