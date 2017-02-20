@@ -88,11 +88,9 @@ public class Mirobot {
         return "Ir7l002c";
     }
 
-    public static Mirobot pegarInstancia() {
+    public static Mirobot apply() {
         if (Mirobot.instancia == null) {
             Mirobot.instancia = new Mirobot();
-
-            return Mirobot.instancia;
         }
 
         return Mirobot.instancia;
